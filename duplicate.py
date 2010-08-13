@@ -2,6 +2,13 @@
 
 # Copyright 2010 Brian Edwards. All Rights Reserved.
 
+# Much of this is copied from sqlalchemy/sql/compiler.py which is
+# Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010 Michael Bayer mike_mp@zzzcomputing.com
+# This is a combination of SQLCompiler visit_insert() and visit_update()
+# I made an attempt to reuse the code without copy-and-paste but both methods
+# call _get_colparams and calling that method twice during a compilation
+# causes an error.
+
 from sqlalchemy import exc
 from sqlalchemy.ext.compiler import compiles
 from sqlalchemy.sql.expression import Insert, TableClause
