@@ -1,0 +1,12 @@
+Adds INSERT ... ON DUPLICATE KEY UPDATE to SQLAlchemy
+
+http://dev.mysql.com/doc/refman/5.0/en/insert-on-duplicate.html
+
+Requires passing paramstyle='pyformat' to create_engine. The default for
+MySQLdb is 'format' (positional).
+
+Versions tested against
+  Python 2.6
+  SQLAlchemy 0.6.3
+  MySQLdb 1.2.3
+  MySQL 5.0.67
