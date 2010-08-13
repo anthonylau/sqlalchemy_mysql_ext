@@ -1,12 +1,44 @@
+Copyright 2010 Brian Edwards. All Rights Reserved.
+
 Adds INSERT ... ON DUPLICATE KEY UPDATE to SQLAlchemy
 
 http://dev.mysql.com/doc/refman/5.0/en/insert-on-duplicate.html
 
-Requires passing paramstyle='pyformat' to create_engine. The default for
-MySQLdb is 'format' (positional).
+Using this class requires passing paramstyle='pyformat' to create_engine. The
+default for MySQLdb is 'format' (positional).
+
+  create_engine('mysql+mysqldb://...', paramstyle='pyformat')
+
+Import (to monkeypatch TableClause) and use it as you would a normal insert
+
+  import duplicate
+  table.insertOnDuplicate().values(...)
+
+Or if monkeypatching freaks you out.
+
+  from duplicate import insertOnDuplicate
+  insertOnDuplicate(table).values(...)
 
 Versions tested against
   Python 2.6
   SQLAlchemy 0.6.3
   MySQLdb 1.2.3
   MySQL 5.0.67
+
+To run the tests
+
+  1. create a user named 'duplicate' and database named 'duplicate_test'
+
+    mysql> create user 'duplicate'@'localhost';
+    mysql> grant all privileges on *.* to 'duplicate'@'localhost' with grant option;
+    mysql> flust privileges;
+    mysql> create database duplicate_test;
+
+  2. Run the tests.
+  
+    $ ./test_duplicate.py 
+    .
+    ----------------------------------------------------------------------
+    Ran 1 test in 0.394s
+
+    OK
