@@ -9,9 +9,11 @@ default for MySQLdb is 'format' (positional).
 
   create_engine('mysql+mysqldb://...', paramstyle='pyformat')
 
-Import (to monkeypatch TableClause) and use it as you would a normal insert
+monkeypatch TableClause and use it as you would a normal insert
 
-  import duplicate
+  from duplicate import monkeypatchTableClause
+  monkeypatchTableClause()
+  table = Table(...)
   table.insertOnDuplicate().values(...)
 
 Or if monkeypatching freaks you out.

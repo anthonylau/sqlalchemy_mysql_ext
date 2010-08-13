@@ -4,11 +4,12 @@
 
 import unittest
 from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, select
-import duplicate
+from duplicate import monkeypatchTableClause, unmonkeypatchTableClause
 
 class TestInsertOnDuplicate(unittest.TestCase):
 
     def setUp(self):
+        monkeypatchTableClause()
         engine = create_engine('mysql+mysqldb://duplicate@localhost/duplicate_test', 
                                paramstyle='pyformat')
         self.conn = engine.connect()
@@ -22,6 +23,7 @@ class TestInsertOnDuplicate(unittest.TestCase):
         self.table.drop()
         self.table = None
         self.conn = None
+        unmonkeypatchTableClause()
 
     def testInsert(self):
         self.insertFetchAssert(42, 'Avery')
@@ -42,6 +44,3 @@ class TestInsertOnDuplicate(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-
-def _pyflakesUnused():
-    duplicate

@@ -19,7 +19,11 @@ class InsertOnDuplicate(Insert):
 def insertOnDuplicate(table, values=None, inline=False, **kwargs):
     return InsertOnDuplicate(table, values, inline=inline, **kwargs)
 
-TableClause.insertOnDuplicate = insertOnDuplicate
+def monkeypatchTableClause():
+    TableClause.insertOnDuplicate = insertOnDuplicate
+
+def unmonkeypatchTableClause():
+    del TableClause.insertOnDuplicate
 
 @compiles(InsertOnDuplicate)
 def compile_insertOnDuplicateKeyUpdate(insert_stmt, compiler, **kw):
