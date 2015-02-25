@@ -1,5 +1,9 @@
 Copyright 2010 Brian Edwards. All Rights Reserved.
 
+
+foo
+
+
 Adds INSERT ... ON DUPLICATE KEY UPDATE to SQLAlchemy
 
 http://dev.mysql.com/doc/refman/5.0/en/insert-on-duplicate.html
