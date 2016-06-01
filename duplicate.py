@@ -28,12 +28,17 @@ def unmonkeypatchTableClause():
 @compiles(InsertOnDuplicate)
 def compile_insertOnDuplicateKeyUpdate(insert_stmt, compiler, **kw):
     compiler.isinsert = True
-    colparams = compiler._get_colparams(insert_stmt)
+    try:
+        # pylint: disable=E0611
+        from sqlalchemy.sql import crud
+        colparams = crud._get_crud_params(compiler, insert_stmt)
+    except ImportError:  # SQLAlchemy <= 1.0
+        colparams = compiler._get_colparams(insert_stmt)
     if not colparams and \
             not compiler.dialect.supports_default_values and \
             not compiler.dialect.supports_empty_insert:
         raise exc.CompileError("The version of %s you are using does "
-                                "not support empty inserts." % 
+                                "not support empty inserts." %
                                 compiler.dialect.name)
     preparer = compiler.preparer
     supports_default_values = compiler.dialect.supports_default_values
